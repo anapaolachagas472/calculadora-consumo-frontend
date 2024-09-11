@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Custo de Energia</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-...your-integrity-hash..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fce4ec; /* Rosa claro */
+            color: #333; /* Cor do texto */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://www.transparenttextures.com/patterns/heart-pattern.png'); /* Padrão de corações */
+            background-size: 100px 100px; /* Tamanho dos corações */
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+        }
+        .form-container {
+            background-color: #f8bbd0; /* Rosa mais escuro para o fundo da calculadora */
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            margin-right: 20px;
+        }
+        .devices-container {
+            background-color: #ffffff; /* Branco para a caixa de dispositivos */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 350px;
+            overflow-y: auto;
+            height: auto;
+            margin-top: 20px; /* Espaço acima da caixa de dispositivos */
+        }
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #d81b60; /* Rosa forte para o título */
+        }
+        label {
+            font-weight: 700;
+            color: #d81b60; /* Rosa forte para o texto dos rótulos */
+        }
+        input, select, button {
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+        input, select {
+            background-color: #ffffff; /* Branco para os campos de entrada */
+            color: #333; /* Cor do texto */
+            border: 1px solid #d81b60; /* Rosa forte para a borda dos campos */
+            padding: 12px;
+        }
+        button {
+            background-color: #d81b60; /* Rosa forte para o botão */
+            color: white;
+            border: none;
+            padding: 12px;
+            font-weight: 700;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #c2185b; /* Rosa mais escuro para o botão ao passar o mouse */
+        }
+        .result {
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+        .devices-container h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #d81b60; /* Rosa forte para o título */
+        }
+        .devices-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .devices-list li {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        .devices-list i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Cálculo de Custo de Energia</h1>
+            <form id="energyCostForm">
+                <div class="form-group">
+                    <label for="device">Selecione o Aparelho:</label>
+                    <select class="form-control" id="device" name="device" required>
+                        <option value="" disabled selected>Escolha um aparelho</option>
+                        <option value="Televisão" data-icon="fas fa-tv">
+                            <i class="fas fa-tv"></i> Televisão
+                        </option>
+                        <option value="Geladeira" data-icon="fas fa-refrigerator">
+                            <i class="fas fa-refrigerator"></i> Geladeira
+                        </option>
+                        <option value="Ar Condicionado" data-icon="fas fa-wind">
+                            <i class="fas fa-wind"></i> Ar Condicionado
+                        </option>
+                        <option value="Máquina de Lavar" data-icon="fas fa-tachometer-alt">
+                            <i class="fas fa-tachometer-alt"></i> Máquina de Lavar
+                        </option>
+                        <option value="Computador" data-icon="fas fa-laptop">
+                            <i class="fas fa-laptop"></i> Computador
+                        </option>
+                        <option value="Micro-ondas" data-icon="fas fa-microchip">
+                            <i class="fas fa-microchip"></i> Micro-ondas
+                        </option>
+                        <option value="Secador de Cabelo" data-icon="fas fa-blender">
+                            <i class="fas fa-blender"></i> Secador de Cabelo
+                        </option>
+                        <option value="Chapinha" data-icon="fas fa-cogs">
+                            <i class="fas fa-cogs"></i> Chapinha
+                        </option>
+                        <option value="Air Fryer" data-icon="fas fa-oven">
+                            <i class="fas fa-oven"></i> Air Fryer
+                        </option>
+                        <option value="Aquecedor" data-icon="fas fa-thermometer-full">
+                            <i class="fas fa-thermometer-full"></i> Aquecedor
+                        </option>
+                        <option value="Carregador de Celular" data-icon="fas fa-charging-station">
+                            <i class="fas fa-charging-station"></i> Carregador de Celular
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="power">Potência (em Watts):</label>
+                    <input type="number" class="form-control" id="power" name="power" required>
+                </div>
+                <div class="form-group">
+                    <label for="usageTime">Tempo de Uso Diário (em horas):</label>
+                    <input type="number" class="form-control" id="usageTime" name="usageTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="rate">Tarifa de Energia (R$/kWh):</label>
+                    <input type="number" class="form-control" id="rate" name="rate" step="0.01" required>
+                    <small class="form-text text-muted">
+                        Informe o valor da tarifa de energia elétrica em reais por quilowatt-hora (kWh). Exemplo: 0.60 para R$ 0,60.
+                    </small>
+                </div>
+                <button type="submit" class="btn btn-block">Calcular Custo</button>
+            </form>
+
+            <div class="result" id="result"></div>
+        </div>
+        
+        <div class="devices-container">
+            <h2>Alguns Dispositivos</h2>
+            <ul class="devices-list">
+                <li><i class="fas fa-tv"></i> Televisão - 100 W</li>
+                <li><i class="fas fa-refrigerator"></i> Geladeira - 150 W</li>
+                <li><i class="fas fa-wind"></i> Ar Condicionado - 2000 W</li>
+                <li><i class="fas fa-tachometer-alt"></i> Máquina de Lavar - 500 W</li>
+                <li><i class="fas fa-laptop"></i> Computador - 150 W</li>
+                <li><i class="fas fa-microchip"></i> Micro-ondas - 1200 W</li>
+                <li><i class="fas fa-blender"></i> Secador de Cabelo - 1200 W</li>
+                <li><i class="fas fa-cogs"></i> Chapinha - 70 W</li>
+                <li><i class="fas fa-oven"></i> Air Fryer - 1400 W</li>
+                <li><i class="fas fa-thermometer-full"></i> Aquecedor - 1000 W</li>
+                <li><i class="fas fa-charging-station"></i> Carregador de Celular - 5 W</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('energyCostForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const device = document.getElementById('device').value;
+            const power = parseFloat(document.getElementById('power').value);
+            const usageTime = parseFloat(document.getElementById('usageTime').value);
+            const rate = parseFloat(document.getElementById('rate').value);
+            const cost = (power * usageTime * rate / 1000).toFixed(2);
+            document.getElementById('result').textContent = `O custo diário do uso do ${device} é R$ ${cost}`;
+        });
+    </script>
+</body>
+</html>
